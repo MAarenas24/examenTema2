@@ -1,5 +1,6 @@
 package com.mycompany.examenprogramacion;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -37,6 +38,8 @@ import java.util.Scanner;
  */
 public class Ejercicio02 {
     
+    static Scanner entradaTeclado = new Scanner(System.in);
+    
     public static void main(String[] args) {
         
         Scanner entradaTeclado = new Scanner(System.in);
@@ -44,21 +47,59 @@ public class Ejercicio02 {
         final int INTENTOS_PERMITIDOS = 4;
         final int CONTRASENIA_CORRECTA = 1534;
         
-        int contrasenia = 0;
+        int contraseniaIntroducida = 0;
         int numerosDeIntentos = 0;
+        boolean claveCorrecta = (contraseniaIntroducida == CONTRASENIA_CORRECTA);
         
-        do {
-            System.out.println("Introduce contraseña: ");
-            contrasenia = entradaTeclado.nextInt();
+        while (!claveCorrecta && numerosDeIntentos < INTENTOS_PERMITIDOS) {
+            contraseniaIntroducida = leerEnteroDeTeclado();
+            numerosDeIntentos++;
+            System.out.println("Intento " + numerosDeIntentos + " de " + INTENTOS_PERMITIDOS);
             
-        } while (contrasenia != CONTRASENIA_CORRECTA || numerosDeIntentos >= 4);
+            if (tiene4Digitos(contraseniaIntroducida) && contraseniaIntroducida == CONTRASENIA_CORRECTA) {
+                claveCorrecta = true;
+            }
+        }
+        
+        if (claveCorrecta) {
+            System.out.println("Caja abierta");
+        } else {
+            System.out.println("Caja bloqueada");
+        }
         
     }
     
-    public static void tiene4Digitos(int num) {
-        if (num < 999 || num > 10000) {
-            System.out.println("El numero tiene que ser de de 4 digitos");
+    /**
+     * 
+     * @param num
+     * @return 
+     */
+    public static boolean tiene4Digitos(int num) {
+        boolean tiene4Digitos = false;
+        if (num > 999 && num < 10000) {
+            tiene4Digitos = true;
         }
+        return tiene4Digitos;
+    }
+    
+    public static int leerEnteroDeTeclado() {
+        int num = 0;
+        boolean esNumero = false;
+
+        do {
+            try {
+                System.out.println("Introduce un numero: ");
+                num = entradaTeclado.nextInt();
+
+                esNumero = true;
+            } catch (InputMismatchException e) {
+                System.out.println("ERROR! Intentelo de nuevo");
+
+                esNumero = false;
+            }
+            entradaTeclado.nextLine();
+        } while (!esNumero);
+        return num;
     }
     
 }
