@@ -50,11 +50,12 @@ public class Ejercicio01 {
         boolean cumpleMinimoImpares = false;
         int contadorDeImpares = 0;
 
-        while (num > 1) {
-            if (num % 10 != 0) {
+        while (num > 0) {
+            if (num % 2 != 0) {
                 contadorDeImpares++;
             }
             num = num / 10;
+            
         }
 
         if (contadorDeImpares >= MINIMO_DE_IMPARES) {
